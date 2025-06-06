@@ -1,3 +1,4 @@
+import 'package:actividad_audraw/navigation/Drawer.dart';
 import 'package:flutter/material.dart';
 
 class Pantalla3 extends StatefulWidget {
@@ -12,7 +13,6 @@ class _Pantalla3State extends State<Pantalla3> {
   final mesesController = TextEditingController();
   final interesController = TextEditingController();
 
-  String resultado = "";
   List<String> detalle = [];
 
   void calcularAhorro() {
@@ -33,19 +33,31 @@ class _Pantalla3State extends State<Pantalla3> {
       detalle.add("Mes $i: \$${total.toStringAsFixed(2)}");
     }
 
-    setState(() {
-      resultado = "💰 Ahorro total acumulado: \$${total.toStringAsFixed(2)}";
-    });
+    final mensaje = "💰 Ahorro total acumulado: \$${total.toStringAsFixed(2)}";
+
+    _mostrarAlerta(mensaje); // Mostrar en alerta
   }
 
   void _mostrarAlerta(String mensaje) {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text("Error"),
-        content: Text(mensaje),
+        title: Text("Resultado"),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(mensaje),
+              SizedBox(height: 12),
+              ...detalle.map((e) => Text(e)).toList(),
+            ],
+          ),
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text("OK")),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
         ],
       ),
     );
@@ -56,7 +68,6 @@ class _Pantalla3State extends State<Pantalla3> {
     mesesController.clear();
     interesController.clear();
     setState(() {
-      resultado = "";
       detalle.clear();
     });
   }
@@ -64,7 +75,8 @@ class _Pantalla3State extends State<Pantalla3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("PANTALLA 3 - Simulador de Ahorro")),
+      appBar: AppBar(title: Text("Simulador de Ahorro")),
+      drawer: MiDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -103,10 +115,6 @@ class _Pantalla3State extends State<Pantalla3> {
                 ElevatedButton(onPressed: limpiarCampos, child: Text("Limpiar")),
               ],
             ),
-            SizedBox(height: 20),
-            Text(resultado, style: TextStyle(fontSize: 18, color: Colors.green)),
-            SizedBox(height: 10),
-            ...detalle.map((e) => Text(e)).toList(),
           ],
         ),
       ),

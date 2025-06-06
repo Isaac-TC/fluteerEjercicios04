@@ -1,3 +1,4 @@
+import 'package:actividad_audraw/navigation/Drawer.dart';
 import 'package:flutter/material.dart';
 
 class Pantalla2 extends StatefulWidget {
@@ -12,8 +13,6 @@ class _Pantalla2State extends State<Pantalla2> {
   final tasaController = TextEditingController();
   final tiempoController = TextEditingController();
 
-  String resultado = "";
-
   void calcularInteres() {
     final capital = double.tryParse(capitalController.text) ?? -1;
     final tasa = double.tryParse(tasaController.text) ?? -1;
@@ -27,31 +26,30 @@ class _Pantalla2State extends State<Pantalla2> {
     final interes = capital * tasa * tiempo / 100;
     final montoFinal = capital + interes;
 
-    setState(() {
-      resultado =
-          "💰 Capital inicial: \$${capital.toStringAsFixed(2)}\n"
-          "📈 Interés generado: \$${interes.toStringAsFixed(2)}\n"
-          "🧮 Monto final: \$${montoFinal.toStringAsFixed(2)}";
-    });
+    final mensaje = "💰 Capital inicial: \$${capital.toStringAsFixed(2)}\n"
+        "📈 Interés generado: \$${interes.toStringAsFixed(2)}\n"
+        "🧮 Monto final: \$${montoFinal.toStringAsFixed(2)}";
+
+    mostrarAlerta(mensaje);
   }
 
   void limpiarCampos() {
     capitalController.clear();
     tasaController.clear();
     tiempoController.clear();
-    setState(() {
-      resultado = "";
-    });
   }
 
   void mostrarAlerta(String mensaje) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Atención"),
+        title: Text("Resultado"),
         content: Text(mensaje),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
         ],
       ),
     );
@@ -60,7 +58,8 @@ class _Pantalla2State extends State<Pantalla2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("PANTALLA 2 - Interés Simple")),
+      appBar: AppBar(title: Text("Calculadora de Interés Simple")),
+      drawer: MiDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -99,12 +98,6 @@ class _Pantalla2State extends State<Pantalla2> {
             TextButton(
               onPressed: limpiarCampos,
               child: Text("Limpiar"),
-            ),
-            SizedBox(height: 24),
-            Text(
-              resultado,
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 18, color: Colors.indigo),
             ),
           ],
         ),

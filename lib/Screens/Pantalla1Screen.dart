@@ -58,7 +58,7 @@ class _Pantalla1State extends State<Pantalla1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Calculador - Propinas")),
+      appBar: AppBar(title: Text("Calculador de Propinas")),
       drawer: MiDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
