@@ -1,3 +1,4 @@
+import 'package:actividad_audraw/navigation/Drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,11 +10,9 @@ class Pantalla1 extends StatefulWidget {
 }
 
 class _Pantalla1State extends State<Pantalla1> {
-
   final cuentaController = TextEditingController();
   final personalizadaController = TextEditingController();
   final formatoMoneda = NumberFormat.currency(locale: 'es_EC', symbol: '\$');
-  String resultado = "";
 
   void calcularPropina(double porcentaje) {
     double cuenta = double.tryParse(cuentaController.text) ?? -1;
@@ -25,10 +24,10 @@ class _Pantalla1State extends State<Pantalla1> {
     double propina = cuenta * porcentaje;
     double total = cuenta + propina;
 
-    setState(() {
-      resultado =
-          "Propina: ${formatoMoneda.format(propina)}\nTotal a pagar: ${formatoMoneda.format(total)}";
-    });
+    String resultado =
+        "Propina: ${formatoMoneda.format(propina)}\nTotal a pagar: ${formatoMoneda.format(total)}";
+
+    _mostrarAlerta(resultado); // ← Mostrar en alerta
   }
 
   void calcularPersonalizada() {
@@ -47,7 +46,10 @@ class _Pantalla1State extends State<Pantalla1> {
         title: Text("Resultado"),
         content: Text(mensaje),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          )
         ],
       ),
     );
@@ -56,7 +58,8 @@ class _Pantalla1State extends State<Pantalla1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("PANTALLA 1 - Propinas")),
+      appBar: AppBar(title: Text("Calculador - Propinas")),
+      drawer: MiDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -70,13 +73,20 @@ class _Pantalla1State extends State<Pantalla1> {
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 16),
-            Text("Selecciona el porcentaje de propina:", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text("Selecciona el porcentaje de propina:",
+                style: TextStyle(fontWeight: FontWeight.bold)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(onPressed: () => calcularPropina(0.10), child: Text("10%")),
-                ElevatedButton(onPressed: () => calcularPropina(0.15), child: Text("15%")),
-                ElevatedButton(onPressed: () => calcularPropina(0.20), child: Text("20%")),
+                ElevatedButton(
+                    onPressed: () => calcularPropina(0.10),
+                    child: Text("10%")),
+                ElevatedButton(
+                    onPressed: () => calcularPropina(0.15),
+                    child: Text("15%")),
+                ElevatedButton(
+                    onPressed: () => calcularPropina(0.20),
+                    child: Text("20%")),
               ],
             ),
             SizedBox(height: 16),
@@ -91,12 +101,6 @@ class _Pantalla1State extends State<Pantalla1> {
             ElevatedButton(
               onPressed: calcularPersonalizada,
               child: Text("Aplicar personalizada"),
-            ),
-            SizedBox(height: 24),
-            Text(
-              resultado,
-              style: TextStyle(fontSize: 18, color: Colors.green),
-              textAlign: TextAlign.center,
             ),
           ],
         ),

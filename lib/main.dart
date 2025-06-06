@@ -23,33 +23,75 @@ class Cuerpo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("DRAWER"),),
+      appBar: AppBar(title: Text("EJERCICIOS-04"),),
       body: Container(
         decoration:BoxDecoration(
-         // image:DecorationImage(
-           // fit: BoxFit.cover,
-           // image: AssetImage("assets/images/fondo.jpg"))
+          image:DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage("assets/images/22575.png"))
           ),
-        child: Center(child: Text("WELCOME-DRAWER", style:TextStyle(color: Color.fromRGBO(6, 238, 84, 1),) ))),
+        child: Center(child: Text("WELCOME", style:TextStyle(color: Color.fromRGBO(6, 238, 84, 1),) ))),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              title: Text("Pantalla1"),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> Pantalla1())),
-
-            ),
-            ListTile(
-              title: Text("Pantalla 2"),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> Pantalla2())),
-            ),
-            ListTile(
-              title: Text("pantalla 3"),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> Pantalla3())),
-            )
-          ],
+  child: Container(
+    color: Colors.white,
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration: BoxDecoration(
+            color: Colors.blueAccent,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                "Menú de Ejercicios",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                "Selecciona una opción",
+                style: TextStyle(color: Colors.white70),
+              ),
+            ],
+          ),
         ),
-      ),
+        ListTile(
+          leading: Icon(Icons.calculate, color: Colors.green),
+          title: Text("Ejercicio 01"),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Pantalla1()),
+          ),
+        ),
+        Divider(),
+        ListTile(
+          leading: Icon(Icons.calculate, color: Colors.orange),
+          title: Text("Ejercicio 02"),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Pantalla2()),
+          ),
+        ),
+        Divider(),
+        ListTile(
+          leading: Icon(Icons.calculate, color: Colors.purple),
+          title: Text("Ejercicio 03"),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Pantalla3()),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
     );
   }
 }
